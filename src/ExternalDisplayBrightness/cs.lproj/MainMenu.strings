@@ -1,0 +1,42 @@
+
+/* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
+"AYu-sK-qS6.title" = "Hlavní menu";
+
+/* Class = "NSMenuItem"; title = "ExternalDisplayBrightness"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "ExternalDisplayBrightness";
+
+/* Class = "NSMenu"; title = "ExternalDisplayBrightness"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "ExternalDisplayBrightness";
+
+/* Class = "NSMenuItem"; title = "About ExternalDisplayBrightness"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "O aplikaci ExternalDisplayBrightness";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
+"BOF-NM-1cW.title" = "Předvolby…";
+
+/* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
+"NMo-om-nkz.title" = "Služby";
+
+/* Class = "NSMenu"; title = "Services"; ObjectID = "hz9-B4-Xy5"; */
+"hz9-B4-Xy5.title" = "Služby";
+
+/* Class = "NSMenuItem"; title = "Hide ExternalDisplayBrightness"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "Skrýt ExternalDisplayBrightness";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "Skrýt ostatní";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "Zobrazit vše";
+
+/* Class = "NSMenuItem"; title = "Quit ExternalDisplayBrightness"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "Ukončit ExternalDisplayBrightness";
+
+/* Class = "NSMenuItem"; title = "Window"; ObjectID = "mIx-Lw-nv8"; */
+"mIx-Lw-nv8.title" = "Okno";
+
+/* Class = "NSMenu"; title = "Window"; ObjectID = "ajV-5V-6qY"; */
+"ajV-5V-6qY.title" = "Okno";
+
+/* Class = "NSMenuItem"; title = "Close"; ObjectID = "een-Hp-Spc"; */
+"een-Hp-Spc.title" = "Zavřít";

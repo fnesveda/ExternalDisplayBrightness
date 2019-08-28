@@ -1,0 +1,20 @@
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Předvolby";
+
+/* Class = "NSTextFieldCell"; title = "Decrease brightness key"; ObjectID = "7a7-LC-VKL"; */
+"7a7-LC-VKL.title" = "Klávesa pro snížení jasu";
+
+/* Class = "NSTextFieldCell"; title = "Increase brightness key"; ObjectID = "013-kU-aOh"; */
+"013-kU-aOh.title" = "Klávesa pro zvýšení jasu";
+
+/* Class = "NSTextFieldCell"; title = "Accessibility permissions not granted, please relaunch ExternalDisplayBrightness after granting it accessibility permissions"; ObjectID = "Ang-9W-E3z"; */
+"Ang-9W-E3z.title" = "Služba usnadnění nepovolena,\nspusťe prosím ExternalDisplayBrightness znovu po\U00A0povolení služby usnadnění";
+
+/* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "NaB-fc-Z5a"; */
+"NaB-fc-Z5a.title" = "Spustit při startu systému";
+
+/* Class = "NSButtonCell"; title = "Relaunch"; ObjectID = "L5g-cx-QmH"; */
+"L5g-cx-QmH.title" = "Spustit znovu";
+
+/* Class = "NSButtonCell"; title = "Quit"; ObjectID = "PJw-6u-qDj"; */
+"PJw-6u-qDj.title" = "Ukončit";

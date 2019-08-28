@@ -1,0 +1,20 @@
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Preferences";
+
+/* Class = "NSTextFieldCell"; title = "Decrease brightness key"; ObjectID = "7a7-LC-VKL"; */
+"7a7-LC-VKL.title" = "Decrease brightness key";
+
+/* Class = "NSTextFieldCell"; title = "Increase brightness key"; ObjectID = "013-kU-aOh"; */
+"013-kU-aOh.title" = "Increase brightness key";
+
+/* Class = "NSTextFieldCell"; title = "Accessibility permissions not granted, please relaunch ExternalDisplayBrightness after granting it accessibility permissions"; ObjectID = "Ang-9W-E3z"; */
+"Ang-9W-E3z.title" = "Accessibility permissions not\U00A0granted, please relaunch ExternalDisplayBrightness after granting\U00A0it accessibility permissions";
+
+/* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "NaB-fc-Z5a"; */
+"NaB-fc-Z5a.title" = "Launch at login";
+
+/* Class = "NSButtonCell"; title = "Relaunch"; ObjectID = "L5g-cx-QmH"; */
+"L5g-cx-QmH.title" = "Relaunch";
+
+/* Class = "NSButtonCell"; title = "Quit"; ObjectID = "PJw-6u-qDj"; */
+"PJw-6u-qDj.title" = "Quit";
