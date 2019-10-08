@@ -26,6 +26,8 @@ The app runs as a hidden agent app, silently listening for keyboard shortcuts. T
 You can customize the keyboard shortcuts for the brightness actions to any of the F1 - F20 keys.
 By default the application takes over the default brightness keys on a Mac keyboard, which are mapped to F14 and F15, respectively. When pressing the keyboard shortcut in combination with Option + Shift, the brightness changes in smaller increments, just like on a real Mac.
 
+There is also an option to control the brightness of all connected displays simultaneously, by default triggered by using the keyboard shortcut in combination with the Command modifier. This behavior is also customizable in the app's preferences.
+
 Compatibility
 -------------
 ExternalDisplayBrightness uses the [DDC/CI standard](https://en.wikipedia.org/wiki/Display_Data_Channel#DDC/CI) commands to control the brightness of external displays. For the app to work, your display needs to support the DDC/CI standard properly. Most displays do, but there are some issues with Samsung displays (and possibly others), which do not implement the standard correctly. Unfortunately, there is not much that can be done to remedy the situation.

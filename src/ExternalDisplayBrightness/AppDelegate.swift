@@ -13,6 +13,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		UserDefaults.standard.register(defaults: [
 			"decreaseBrightnessKey": "F14",
 			"increaseBrightnessKey": "F15",
+			"changeBrightnessOnAllDisplaysAtOnce": 1,
+			"changeBrightnessOnAllDisplaysAtOnceRequiresCommand": 1,
 			"showPreferencesOnNextLaunch": true,
 		])
 		

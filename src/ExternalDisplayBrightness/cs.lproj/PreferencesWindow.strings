@@ -7,6 +7,12 @@
 /* Class = "NSTextFieldCell"; title = "Increase brightness key"; ObjectID = "013-kU-aOh"; */
 "013-kU-aOh.title" = "Klávesa pro zvýšení jasu";
 
+/* Class = "NSButtonCell"; title = "Change brightness on all displays at once"; ObjectID = "6Fy-CI-9hG"; */
+"6Fy-CI-9hG.title" = "Měnit jas na všech monitorech zároveň";
+
+/* Class = "NSButtonCell"; title = "Require Command modifier to be pressed"; ObjectID = "J0J-D3-Kyc"; */
+"J0J-D3-Kyc.title" = "Vyžadovat stištění klávesy Command";
+
 /* Class = "NSTextFieldCell"; title = "Accessibility permissions not granted, please relaunch ExternalDisplayBrightness after granting it accessibility permissions"; ObjectID = "Ang-9W-E3z"; */
 "Ang-9W-E3z.title" = "Služba usnadnění nepovolena,\nspusťe prosím ExternalDisplayBrightness znovu po\U00A0povolení služby usnadnění";
 

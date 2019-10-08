@@ -7,6 +7,12 @@
 /* Class = "NSTextFieldCell"; title = "Increase brightness key"; ObjectID = "013-kU-aOh"; */
 "013-kU-aOh.title" = "Increase brightness key";
 
+/* Class = "NSButtonCell"; title = "Change brightness on all displays at once"; ObjectID = "6Fy-CI-9hG"; */
+"6Fy-CI-9hG.title" = "Change brightness on all displays at once";
+
+/* Class = "NSButtonCell"; title = "Require Command modifier to be pressed"; ObjectID = "J0J-D3-Kyc"; */
+"J0J-D3-Kyc.title" = "Require Command modifier to be pressed";
+
 /* Class = "NSTextFieldCell"; title = "Accessibility permissions not granted, please relaunch ExternalDisplayBrightness after granting it accessibility permissions"; ObjectID = "Ang-9W-E3z"; */
 "Ang-9W-E3z.title" = "Accessibility permissions not\U00A0granted, please relaunch ExternalDisplayBrightness after granting\U00A0it accessibility permissions";
 

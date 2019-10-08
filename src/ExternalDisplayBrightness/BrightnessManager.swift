@@ -205,6 +205,9 @@ internal class BrightnessManager: NSObject {
 	internal var increaseBrightnessAction: KeyboardShortcutsManager.KeyAction?
 	internal var decreaseBrightnessAction: KeyboardShortcutsManager.KeyAction?
 	
+	@objc internal dynamic var changeBrightnessOnAllDisplaysAtOnce: NSNumber = 1
+	@objc internal dynamic var changeBrightnessOnAllDisplaysAtOnceRequiresCommand: NSNumber = 1
+	
 	@objc internal dynamic var decreaseBrightnessKey: NSString = "F9" {
 		didSet {
 			self.decreaseBrightnessAction?.key = self.decreaseBrightnessKey as String
@@ -222,6 +225,9 @@ internal class BrightnessManager: NSObject {
 	override private init() {
 		super.init()
 		
+		self.bind(NSBindingName(rawValue: "changeBrightnessOnAllDisplaysAtOnce"), to: NSUserDefaultsController.shared, withKeyPath: "values.changeBrightnessOnAllDisplaysAtOnce")
+		self.bind(NSBindingName(rawValue: "changeBrightnessOnAllDisplaysAtOnceRequiresCommand"), to: NSUserDefaultsController.shared, withKeyPath: "values.changeBrightnessOnAllDisplaysAtOnceRequiresCommand")
+		
 		if KeyboardShortcutsManager.shared.isRegistered {
 			self.bind(NSBindingName(rawValue: "decreaseBrightnessKey"), to: NSUserDefaultsController.shared, withKeyPath: "values.decreaseBrightnessKey")
 			self.bind(NSBindingName(rawValue: "increaseBrightnessKey"), to: NSUserDefaultsController.shared, withKeyPath: "values.increaseBrightnessKey")
@@ -232,15 +238,33 @@ internal class BrightnessManager: NSObject {
 	}
 	
 	private func increaseBrightnessHandler(flags: CGEventFlags) {
-		let displayID = type(of: self).getCurrentDisplayID()
 		let optShiftPressed = flags.contains(.maskAlternate) && flags.contains(.maskShift)
-		self.increaseBrightness(onDisplay: displayID, useQuarterSteps: optShiftPressed)
+		let commandPressed = flags.contains(.maskCommand)
+		
+		if self.changeBrightnessOnAllDisplaysAtOnce.boolValue && self.changeBrightnessOnAllDisplaysAtOnceRequiresCommand.boolValue == commandPressed {
+			for displayID in type(of: self).getAllDisplayIDs() {
+				self.increaseBrightness(onDisplay: displayID, useQuarterSteps: optShiftPressed)
+			}
+		}
+		else {
+			let displayID = type(of: self).getCurrentDisplayID()
+			self.increaseBrightness(onDisplay: displayID, useQuarterSteps: optShiftPressed)
+		}
 	}
 	
 	private func decreaseBrightnessHandler(flags: CGEventFlags) {
-		let displayID = type(of: self).getCurrentDisplayID()
 		let optShiftPressed = flags.contains(.maskAlternate) && flags.contains(.maskShift)
-		self.decreaseBrightness(onDisplay: displayID, useQuarterSteps: optShiftPressed)
+		let commandPressed = flags.contains(.maskCommand)
+		
+		if self.changeBrightnessOnAllDisplaysAtOnce.boolValue && self.changeBrightnessOnAllDisplaysAtOnceRequiresCommand.boolValue == commandPressed {
+			for displayID in type(of: self).getAllDisplayIDs() {
+				self.decreaseBrightness(onDisplay: displayID, useQuarterSteps: optShiftPressed)
+			}
+		}
+		else {
+			let displayID = type(of: self).getCurrentDisplayID()
+			self.decreaseBrightness(onDisplay: displayID, useQuarterSteps: optShiftPressed)
+		}
 	}
 	
 	internal func increaseBrightness(onDisplay displayID: CGDirectDisplayID, useQuarterSteps: Bool = false) {
@@ -270,6 +294,10 @@ internal class BrightnessManager: NSObject {
 	
 	internal static func getCurrentDisplayID() -> CGDirectDisplayID {
 		return NSScreen.main?.deviceDescription[.init("NSScreenNumber")] as? CGDirectDisplayID ?? 0
+	}
+	
+	internal static func getAllDisplayIDs() -> [CGDirectDisplayID] {
+		return NSScreen.screens.map { $0.deviceDescription[.init("NSScreenNumber")] as? CGDirectDisplayID ?? 0 }
 	}
 	
 	// shows the brightness HUD with the correct brightness indicator on the correct display
