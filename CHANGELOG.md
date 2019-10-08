@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Unreleased
-----------
+[1.1.0](../../releases/tag/v1.1.0) - 2019-10-08
+-----------------------------------------------
 ### Added
 - support for changing the brightness of all connected displays simultaneously
 
