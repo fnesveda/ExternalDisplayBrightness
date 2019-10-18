@@ -88,7 +88,7 @@ enum DDC {
 	
 	// send an I2C request to a display
 	@discardableResult
-	private static func sendRequest(_ request: UnsafeMutablePointer<IOI2CRequest>, toDisplay displayID: CGDirectDisplayID) -> Bool {
+	private static func sendRequest(_ request: UnsafeMutablePointer<IOI2CRequest>, toDisplay displayID: CGDirectDisplayID, withPostRequestDelay postRequestDelay: UInt32 = 0) -> Bool {
 		let displayQueue = getDispatchQueue(forDisplayID: displayID)
 		var result = false
 		displayQueue.sync {
@@ -112,9 +112,7 @@ enum DDC {
 					}
 				}
 			}
-			if request.pointee.replyTransactionType == kIOI2CNoTransactionType {
-				usleep(20000)
-			}
+			usleep(postRequestDelay * 1000)
 		}
 		return result
 	}
@@ -142,7 +140,7 @@ enum DDC {
 		
 		request.replyTransactionType = IOOptionBits(kIOI2CNoTransactionType)
 		request.replyBytes = 0
-		return sendRequest(&request, toDisplay: displayID)
+		return sendRequest(&request, toDisplay: displayID, withPostRequestDelay: 50)
 	}
 	
 	// read the current and maximum value of a control of a display
@@ -175,7 +173,7 @@ enum DDC {
 		request.replyBuffer = vm_address_t(bitPattern: replyData.baseAddress)
 		request.replyBytes = UInt32(replyData.count)
 		
-		if sendRequest(&request, toDisplay: displayID) {
+		if sendRequest(&request, toDisplay: displayID, withPostRequestDelay: 40) {
 			var checksum = UInt8(request.replyAddress)
 			checksum = checksum ^ request.replySubAddress
 			checksum = checksum ^ replyData[1] ^ replyData[2] ^ replyData[3]
@@ -186,7 +184,6 @@ enum DDC {
 			}
 		}
 		
-		usleep(40000)
 		return nil
 	}
 }
