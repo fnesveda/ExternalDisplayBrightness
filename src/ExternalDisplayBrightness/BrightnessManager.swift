@@ -165,7 +165,7 @@ internal class BrightnessManager: NSObject {
 			self.displayQueue.async {
 				if let brightnessToWrite = self.futureBrightness.value {
 					var success = false
-					let newBrightness = UInt8(brightnessToWrite * self.brightnessScale)
+					let newBrightness = UInt16(brightnessToWrite * self.brightnessScale)
 					
 					// with some displays, for example some Samsung ones, sometimes the DDC write command succeeds but the brightness doesn't change
 					// try to perform the write multiple times in hope that one of them will actually change the brightness

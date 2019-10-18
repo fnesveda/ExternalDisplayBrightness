@@ -119,7 +119,7 @@ enum DDC {
 	
 	// write a value to a control of a display
 	@discardableResult
-	static func write(_ value: UInt8, toControl controlID: Control, toDisplay displayID: CGDirectDisplayID) -> Bool {
+	static func write(_ value: UInt16, toControl controlID: Control, toDisplay displayID: CGDirectDisplayID) -> Bool {
 		var data = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 128)
 		defer { data.deallocate() }
 		
@@ -134,8 +134,8 @@ enum DDC {
 		data[1] = 0x84
 		data[2] = 0x03
 		data[3] = controlID.rawValue
-		data[4] = value >> 8
-		data[5] = value & 0xFF
+		data[4] = UInt8(value >> 8)
+		data[5] = UInt8(value & 0x00FF)
 		data[6] = 0x6E ^ data[0] ^ data[1] ^ data[2] ^ data[3] ^ data[4] ^ data[5]
 		
 		request.replyTransactionType = IOOptionBits(kIOI2CNoTransactionType)
@@ -144,7 +144,7 @@ enum DDC {
 	}
 	
 	// read the current and maximum value of a control of a display
-	static func read(_ controlID: Control, fromDisplay displayID: CGDirectDisplayID) -> (current: UInt8, max: UInt8)? {
+	static func read(_ controlID: Control, fromDisplay displayID: CGDirectDisplayID) -> (current: UInt16, max: UInt16)? {
 		var data = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 128)
 		var replyData = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 11)
 		defer {
@@ -180,7 +180,9 @@ enum DDC {
 			checksum = checksum ^ replyData[4] ^ replyData[5] ^ replyData[6]
 			checksum = checksum ^ replyData[7] ^ replyData[8] ^ replyData[9]
 			if replyData[0] == request.sendAddress && replyData[2] == 0x2 && replyData[4] == controlID.rawValue && replyData[10] == checksum {
-				return (replyData[9], replyData[7])
+				let current = UInt16(replyData[8]) << 8 + UInt16(replyData[9])
+				let max = UInt16(replyData[6]) << 8 + UInt16(replyData[7])
+				return (current, max)
 			}
 		}
 		
