@@ -158,7 +158,8 @@ enum DDC {
 		request.sendTransactionType = IOOptionBits(kIOI2CSimpleTransactionType)
 		request.sendBuffer = vm_address_t(bitPattern: data.baseAddress)
 		request.sendBytes = 5
-		request.minReplyDelay = UInt64(10 * kMillisecondScale)  // too short can freeze kernel
+		// reply delay set according to the DDC/CI standard, Section 6.6 I2C Bus Timings
+		request.minReplyDelay = UInt64(40 * kMillisecondScale)
 		
 		data[0] = 0x51
 		data[1] = 0x82
