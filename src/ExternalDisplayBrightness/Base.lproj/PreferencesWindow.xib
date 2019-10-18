@@ -44,7 +44,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LaL-eE-x2v" userLabel="Decrease brightness key">
-                                        <rect key="frame" x="166" y="38" width="61" height="26"/>
+                                        <rect key="frame" x="166" y="38" width="90" height="26"/>
                                         <popUpButtonCell key="cell" type="push" title="F1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="STB-2p-H8Y" id="B5j-bx-Rfo">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="menu"/>
@@ -70,6 +70,8 @@
                                                     <menuItem title="F18" id="z7s-0h-nGX"/>
                                                     <menuItem title="F19" id="9sf-li-2Hq"/>
                                                     <menuItem title="F20" id="dtb-K0-Z3X"/>
+                                                    <menuItem title="MK_BDN" id="BUI-xK-bFa"/>
+                                                    <menuItem title="MK_BUP" id="hZ6-zs-1Rv"/>
                                                 </items>
                                             </menu>
                                         </popUpButtonCell>
@@ -79,7 +81,7 @@
                                         </connections>
                                     </popUpButton>
                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W9C-mR-q85" userLabel="Increase brightness key">
-                                        <rect key="frame" x="166" y="7" width="61" height="26"/>
+                                        <rect key="frame" x="166" y="7" width="90" height="26"/>
                                         <popUpButtonCell key="cell" type="push" title="F1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="mxb-28-Oq7" id="FDP-v7-kQM">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="menu"/>
@@ -105,6 +107,8 @@
                                                     <menuItem title="F18" id="MFh-N0-7Dj"/>
                                                     <menuItem title="F19" id="goi-Rd-y5f"/>
                                                     <menuItem title="F20" id="He9-X9-gsV"/>
+                                                    <menuItem title="MK_BDN" id="v55-uT-fwH"/>
+                                                    <menuItem title="MK_BUP" id="dSE-sO-FFp"/>
                                                 </items>
                                             </menu>
                                         </popUpButtonCell>
@@ -114,7 +118,7 @@
                                         </connections>
                                     </popUpButton>
                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TFV-Oc-dBs" userLabel="Caution for keys">
-                                        <rect key="frame" x="232" y="20" width="32" height="32"/>
+                                        <rect key="frame" x="261" y="20" width="32" height="32"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="yU1-lx-9H2"/>
                                         <connections>
                                             <binding destination="-2" name="hidden" keyPath="self.showCaution" id="Kh3-Ly-Is4">

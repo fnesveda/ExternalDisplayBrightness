@@ -23,7 +23,7 @@ During the first launch, the app will request permission to use accessibility se
 
 The app runs as a hidden agent app, silently listening for keyboard shortcuts. To access the preferences, simply launch the app again using Launchpad or any other method, and the preferences window will open. The app keeps listening for keyboard shortcuts when you close the preferences window. To completely quit the app, use the Quit button in the window.
 
-You can customize the keyboard shortcuts for the brightness actions to any of the F1 - F20 keys.
+You can customize the keyboard shortcuts for the brightness actions to any of the F1 - F20 keys or the brightness keys on the Magic Keyboard (listed as MK_BDN and MK_BUP in the preferences).
 By default the application takes over the default brightness keys on a Mac keyboard, which are mapped to F14 and F15, respectively. When pressing the keyboard shortcut in combination with Option + Shift, the brightness changes in smaller increments, just like on a real Mac.
 
 There is also an option to control the brightness of all connected displays simultaneously, by default triggered by using the keyboard shortcut in combination with the Command modifier. This behavior is also customizable in the app's preferences.

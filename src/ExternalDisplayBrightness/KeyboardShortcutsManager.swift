@@ -146,6 +146,8 @@ class KeyboardShortcutsManager: NSObject {
 		"F18": 79,
 		"F19": 80,
 		"F20": 90,
+		"MK_BDN": 145, // Magic Keyboard Brightness Down key
+		"MK_BUP": 144, // Magic Keyboard Brightness Up key
 	]
 	
 	// reversed keycodesForKey
