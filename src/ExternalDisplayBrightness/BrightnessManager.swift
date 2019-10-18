@@ -115,6 +115,8 @@ internal class BrightnessManager: NSObject {
 		private var canReadBrightness: Bool = true
 		// brightness to be written to the display
 		private var futureBrightness: Atomic<Float?>
+		// task that saves the current settings to the display's internal memory
+		private var saveCurrentSettingsTask: Atomic<DispatchWorkItem?>
 		
 		override init(fromDisplay displayID: CGDirectDisplayID) {
 			// get the current and maximum brightness from the display, if possible, otherwise choose some sane values
@@ -132,6 +134,7 @@ internal class BrightnessManager: NSObject {
 			}
 			
 			self.futureBrightness = Atomic<Float?>(nil)
+			self.saveCurrentSettingsTask = Atomic<DispatchWorkItem?>(nil)
 			super.init(fromDisplay: displayID)
 		}
 		
@@ -180,6 +183,18 @@ internal class BrightnessManager: NSObject {
 						// and if not, empty the future brightness value
 						self.futureBrightness.mutate({ currentValue in
 							currentValue == brightnessToWrite ? nil : currentValue
+						})
+						
+						// create a task that instructs the display to save the current brightness into its internal memory
+						// and execute that task two seconds from now
+						// (saving the brightness into memory takes time and has a long associated delay, so we try to do that sparingly)
+						let saveCurrentSettingsTask = DispatchWorkItem { DDC.saveCurrentSettings(ofDisplay: self.displayID) }
+						self.displayQueue.asyncAfter(deadline: .now() + 2, execute: saveCurrentSettingsTask)
+						
+						// cancel the previous saving task if it hasn't executed yet, and store the new one
+						self.saveCurrentSettingsTask.mutate({ currentTask in
+							currentTask?.cancel()
+							return saveCurrentSettingsTask
 						})
 					}
 				}

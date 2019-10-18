@@ -7,6 +7,7 @@ enum DDC {
 	// IDs of different controls available to change over DDC-CI
 	enum Control: UInt8 {
 		case brightness = 0x10
+		case settings = 0xB0
 	}
 	
 	// operation queues for each display, used to avoid multiple operations on the same display at once
@@ -188,5 +189,11 @@ enum DDC {
 		}
 		
 		return nil
+	}
+	
+	// save the current display settings to the display's internal memory (to survive turning off and on)
+	@discardableResult
+	static func saveCurrentSettings(ofDisplay displayID: CGDirectDisplayID) -> Bool {
+		return write(1, toControl: .settings, toDisplay: displayID)
 	}
 }
