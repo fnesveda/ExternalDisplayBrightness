@@ -180,7 +180,7 @@ enum DDC {
 			checksum = checksum ^ replyData[4] ^ replyData[5] ^ replyData[6]
 			checksum = checksum ^ replyData[7] ^ replyData[8] ^ replyData[9]
 			if replyData[0] == request.sendAddress && replyData[2] == 0x2 && replyData[4] == controlID.rawValue && replyData[10] == checksum {
-				return (replyData[7], replyData[9])
+				return (replyData[9], replyData[7])
 			}
 		}
 		
