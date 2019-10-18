@@ -145,7 +145,7 @@ class KeyboardShortcutsManager: NSObject {
 		"F17": 64,
 		"F18": 79,
 		"F19": 80,
-		"F20": 90
+		"F20": 90,
 	]
 	
 	// reversed keycodesForKey

@@ -6,7 +6,7 @@ import IOKit.i2c
 enum DDC {
 	// IDs of different controls available to change over DDC-CI
 	enum Control: UInt8 {
-		case brightness = 16
+		case brightness = 0x10
 	}
 	
 	// operation queues for each display, used to avoid multiple operations on the same display at once
@@ -30,7 +30,7 @@ enum DDC {
 		var iter: io_iterator_t = 0
 		var serv: io_service_t = 0
 		
-		if IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(IOFRAMEBUFFER_CONFORMSTO), &iter) == KERN_SUCCESS {
+		if IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(IOFRAMEBUFFER_CONFORMSTO), &iter) == kIOReturnSuccess {
 			defer { IOObjectRelease(iter) }
 			while (serv = IOIteratorNext(iter), serv).1 != MACH_PORT_NULL {
 				defer { IOObjectRelease(serv) }
@@ -62,14 +62,14 @@ enum DDC {
 		var ioService: io_service_t = 0
 		var supportedType: UInt32 = 0
 		
-		if IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceNameMatching("IOFramebufferI2CInterface"), &ioObjects) == KERN_SUCCESS {
+		if IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceNameMatching("IOFramebufferI2CInterface"), &ioObjects) == kIOReturnSuccess {
 			while (ioService = IOIteratorNext(ioObjects), ioService).1 != MACH_PORT_NULL {
 				defer { IOObjectRelease(ioService) }
 				var serviceProperties: Unmanaged<CFMutableDictionary>?
 				
-				if IORegistryEntryCreateCFProperties(ioService, &serviceProperties, kCFAllocatorDefault, 0)	== KERN_SUCCESS {
+				if IORegistryEntryCreateCFProperties(ioService, &serviceProperties, kCFAllocatorDefault, 0)	== kIOReturnSuccess {
 					if let sp = serviceProperties?.takeRetainedValue() {
-						if let types = ((sp as NSDictionary as? [String: Any])?["IOI2CTransactionTypes"] as? Int) {
+						if let types = ((sp as NSDictionary as? [String: Any])?[kIOI2CTransactionTypesKey] as? Int) {
 							if types != 0 {
 								if ((1 << kIOI2CDDCciReplyTransactionType) & types) != 0 {
 									supportedType = UInt32(kIOI2CDDCciReplyTransactionType)
@@ -87,6 +87,7 @@ enum DDC {
 	}
 	
 	// send an I2C request to a display
+	@discardableResult
 	private static func sendRequest(_ request: UnsafeMutablePointer<IOI2CRequest>, toDisplay displayID: CGDirectDisplayID) -> Bool {
 		let displayQueue = getDispatchQueue(forDisplayID: displayID)
 		var result = false
@@ -94,16 +95,16 @@ enum DDC {
 			if let framebufferPort: io_service_t = getIOFramebufferPort(fromDisplayID: displayID) {
 				defer { IOObjectRelease(framebufferPort) }
 				var busCount: io_service_t = 0
-				if IOFBGetI2CInterfaceCount(framebufferPort, &busCount) == KERN_SUCCESS {
+				if IOFBGetI2CInterfaceCount(framebufferPort, &busCount) == kIOReturnSuccess {
 					for bus: IOOptionBits in 0..<busCount {
 						var interface: io_service_t = 0
-						if IOFBCopyI2CInterfaceForBus(framebufferPort, bus, &interface) == KERN_SUCCESS {
+						if IOFBCopyI2CInterfaceForBus(framebufferPort, bus, &interface) == kIOReturnSuccess {
 							defer { IOObjectRelease(interface) }
 							var connect: IOI2CConnectRef?
-							if IOI2CInterfaceOpen(interface, 0, &connect) == KERN_SUCCESS {
+							if IOI2CInterfaceOpen(interface, 0, &connect) == kIOReturnSuccess {
 								defer { IOI2CInterfaceClose(connect, 0) }
-								if IOI2CSendRequest(connect, 0, request) == KERN_SUCCESS {
-									result = request.pointee.result == KERN_SUCCESS
+								if IOI2CSendRequest(connect, 0, request) == kIOReturnSuccess {
+									result = request.pointee.result == kIOReturnSuccess
 									break
 								}
 							}
@@ -119,13 +120,13 @@ enum DDC {
 	}
 	
 	// write a value to a control of a display
+	@discardableResult
 	static func write(_ value: UInt8, toControl controlID: Control, toDisplay displayID: CGDirectDisplayID) -> Bool {
-		var request = IOI2CRequest()
 		var data = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 128)
 		defer { data.deallocate() }
 		
+		var request = IOI2CRequest()
 		request.commFlags = 0
-		
 		request.sendAddress = 0x6E
 		request.sendTransactionType = IOOptionBits(kIOI2CSimpleTransactionType)
 		request.sendBuffer = vm_address_t(bitPattern: data.baseAddress)
@@ -146,7 +147,6 @@ enum DDC {
 	
 	// read the current and maximum value of a control of a display
 	static func read(_ controlID: Control, fromDisplay displayID: CGDirectDisplayID) -> (current: UInt8, max: UInt8)? {
-		var request: IOI2CRequest
 		var data = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 128)
 		var replyData = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 11)
 		defer {
@@ -154,7 +154,7 @@ enum DDC {
 			replyData.deallocate()
 		}
 		
-		request = IOI2CRequest()
+		var request = IOI2CRequest()
 		request.commFlags = 0
 		request.sendAddress = 0x6E
 		request.sendTransactionType = IOOptionBits(kIOI2CSimpleTransactionType)
