@@ -38,15 +38,15 @@ enum DDC {
 				IOFBGetI2CInterfaceCount(serv, &busCount)
 				if busCount >= 1 {
 					if let info = IODisplayCreateInfoDictionary(serv, IOOptionBits(kIODisplayOnlyPreferredName)).takeRetainedValue() as NSDictionary as? [String: Any] {
-						if let vendorID = info[kDisplayVendorID] as? UInt32, let productID = info[kDisplayProductID] as? UInt32 {
-							let serialNumber = info[kDisplaySerialNumber] as? UInt32 ?? 0
-							if vendorID == CGDisplayVendorNumber(displayID)
-								&& productID == CGDisplayModelNumber(displayID)
-								&& (serialNumber == 0 || serialNumber == CGDisplaySerialNumber(displayID))
-							{
-								IOObjectRetain(serv)
-								return serv
-							}
+						let vendorID     = UInt32(bitPattern: Int32(exactly: info[kDisplayVendorID]     as? CFIndex ?? 0) ?? 0)
+						let productID    = UInt32(bitPattern: Int32(exactly: info[kDisplayProductID]    as? CFIndex ?? 0) ?? 0)
+						let serialNumber = UInt32(bitPattern: Int32(exactly: info[kDisplaySerialNumber] as? CFIndex ?? 0) ?? 0)
+						if vendorID == CGDisplayVendorNumber(displayID)
+							&& productID == CGDisplayModelNumber(displayID)
+							&& (serialNumber == 0 || serialNumber == CGDisplaySerialNumber(displayID))
+						{
+							IOObjectRetain(serv)
+							return serv
 						}
 					}
 				}
