@@ -64,7 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	// relaunch app pretending the user opened it themselves, so it doesn't inherit the permissions of the current instance of the app
 	@IBAction private func relaunchApp(_ sender: Any?) {
 		let shellPath = "/bin/sh"
-		let shellArgs = ["-c", "sleep 1; /usr/bin/open " + Bundle.main.bundlePath]
+		let shellArgs = ["-c", "sleep 1; /usr/bin/open \"\(Bundle.main.bundlePath)\""]
 		
 		if (try? Process.run(URL(fileURLWithPath: shellPath), arguments: shellArgs)) != nil {
 			NSApplication.shared.terminate(self)
