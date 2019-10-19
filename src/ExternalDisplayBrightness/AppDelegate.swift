@@ -56,7 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction private func showAboutPanel(_ sender: Any?) {
-		let link = "https://www.nesveda.com/projects/ExternalDisplayBrightness"
+		let link = "https://www.nesveda.com/projects/ExternalDisplayBrightness/"
 		let credits = NSAttributedString(string: link, attributes: [.link: NSURL(string: link) ?? ""])
 		NSApplication.shared.orderFrontStandardAboutPanel(options: [.credits: credits])
 	}
