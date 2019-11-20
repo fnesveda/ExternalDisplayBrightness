@@ -255,8 +255,12 @@ internal class BrightnessManager: NSObject {
 	private func increaseBrightnessHandler(flags: CGEventFlags) {
 		let optShiftPressed = flags.contains(.maskAlternate) && flags.contains(.maskShift)
 		let commandPressed = flags.contains(.maskCommand)
+        
+        if self.changeBrightnessOnAllDisplaysAtOnceRequiresCommand.boolValue != commandPressed {
+            return
+        }
 		
-		if self.changeBrightnessOnAllDisplaysAtOnce.boolValue && self.changeBrightnessOnAllDisplaysAtOnceRequiresCommand.boolValue == commandPressed {
+		if self.changeBrightnessOnAllDisplaysAtOnce.boolValue {
 			for displayID in type(of: self).getAllDisplayIDs() {
 				self.increaseBrightness(onDisplay: displayID, useQuarterSteps: optShiftPressed)
 			}
@@ -270,8 +274,12 @@ internal class BrightnessManager: NSObject {
 	private func decreaseBrightnessHandler(flags: CGEventFlags) {
 		let optShiftPressed = flags.contains(.maskAlternate) && flags.contains(.maskShift)
 		let commandPressed = flags.contains(.maskCommand)
+        
+        if self.changeBrightnessOnAllDisplaysAtOnceRequiresCommand.boolValue != commandPressed {
+            return
+        }
 		
-		if self.changeBrightnessOnAllDisplaysAtOnce.boolValue && self.changeBrightnessOnAllDisplaysAtOnceRequiresCommand.boolValue == commandPressed {
+		if self.changeBrightnessOnAllDisplaysAtOnce.boolValue {
 			for displayID in type(of: self).getAllDisplayIDs() {
 				self.decreaseBrightness(onDisplay: displayID, useQuarterSteps: optShiftPressed)
 			}
