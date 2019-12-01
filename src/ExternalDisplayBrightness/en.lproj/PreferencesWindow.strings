@@ -13,6 +13,15 @@
 /* Class = "NSButtonCell"; title = "Require Command modifier to be pressed"; ObjectID = "J0J-D3-Kyc"; */
 "J0J-D3-Kyc.title" = "Require Command modifier to be pressed";
 
+/* Class = "NSButtonCell"; title = "Read initial brightness from the display before adjusting it"; ObjectID = "Uk0-Ph-6gl"; */
+"Uk0-Ph-6gl.title" = "Read initial brightness from the display before adjusting it";
+
+/* Class = "NSTextFieldCell"; title = "WARNING: Enabling this might make your Mac freeze"; ObjectID = "8hE-QG-GeN"; */
+"8hE-QG-GeN.title" = "WARNING: Enabling this might make your Mac freeze";
+
+/* Class = "NSTextFieldCell"; title = "Unfortunately, some displays do not support reading their brightness over DDC/CI, and some Macs might freeze when attempting to read it from such display. Most Mac models should be fine, but try this at your own risk. More info can be found on the website of the app."; ObjectID = "wuD-xr-hK3"; */
+"wuD-xr-hK3.title" = "Unfortunately, some displays do\U00A0not support reading their brightness over DDC/CI, and\U00A0some Macs might freeze when attempting to\U00A0read it from such display.\nMost Mac models should be\U00A0fine, but try this at\U00A0your own risk.\nMore info can be found on\U00A0the\U00A0website of\U00A0the\U00A0app.";
+
 /* Class = "NSTextFieldCell"; title = "Accessibility permissions not granted, please relaunch ExternalDisplayBrightness after granting it accessibility permissions"; ObjectID = "Ang-9W-E3z"; */
 "Ang-9W-E3z.title" = "Accessibility permissions not\U00A0granted, please relaunch ExternalDisplayBrightness after granting\U00A0it accessibility permissions";
 

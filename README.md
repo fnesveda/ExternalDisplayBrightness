@@ -32,6 +32,8 @@ Compatibility
 -------------
 ExternalDisplayBrightness uses the [DDC/CI standard](https://en.wikipedia.org/wiki/Display_Data_Channel#DDC/CI) commands to control the brightness of external displays. For the app to work, your display needs to support the DDC/CI standard properly. Most displays do, but there are some issues with Samsung displays (and possibly others), which do not implement the standard correctly. Unfortunately, there is not much that can be done to remedy the situation.
 
+There are some issues with certain Mac models which freeze when attempting to read the current brightness of the external display. Because of that, reading the initial brightness of the display is disabled by default, and when changing the brightness of a display for the first time, its initial brightness is set to 50%. You can enable reading the brightness from the display in the app's preferences, but do so at your own risk.
+
 Developing
 ----------
 The utility is a standard Xcode & Swift project without any external dependencies. You can just download/clone the repository and open *src/ExternalDisplayBrightness.xcodeproj* to start making changes. 

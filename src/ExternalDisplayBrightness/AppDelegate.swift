@@ -15,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			"increaseBrightnessKey": "F15",
 			"changeBrightnessOnAllDisplaysAtOnce": 1,
 			"changeBrightnessOnAllDisplaysAtOnceRequiresCommand": 1,
+			"readBrightnessBeforeChanging": 0,
 			"showPreferencesOnNextLaunch": true,
 		])
 		

@@ -4,6 +4,7 @@ import AppKit
 class PreferencesWindowController: NSWindowController, NSWindowDelegate {
 	@IBOutlet private weak var decreaseBrightnessKey: NSPopUpButton?
 	@IBOutlet private weak var increaseBrightnessKey: NSPopUpButton?
+	@IBOutlet private weak var readBrightnessWarningPopover: NSPopover?
 	
 	// needed to access the singleton from Interface Builder
 	@objc dynamic weak var sharedLoginItemManager = LoginItemManager.shared
@@ -41,5 +42,9 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
 	
 	@IBAction private func updateShowCaution(_: Any? = nil) {
 		self.showCaution = self.decreaseBrightnessKey?.titleOfSelectedItem == self.increaseBrightnessKey?.titleOfSelectedItem
+	}
+	
+	@IBAction private func showReadBrightnessWarningPopover(_ sender: NSButton) {
+		self.readBrightnessWarningPopover?.show(relativeTo: sender.bounds, of: sender, preferredEdge: .maxX)
 	}
 }

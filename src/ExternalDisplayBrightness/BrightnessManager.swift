@@ -112,7 +112,7 @@ internal class BrightnessManager: NSObject {
 		// time when we last set or checked the brightness
 		private var lastSetOn: Date
 		// whether the display supports reading brightness over DDC-CI
-		private var canReadBrightness: Bool = true
+		private var canReadBrightness: Bool?
 		// brightness to be written to the display
 		private var futureBrightness: Atomic<Float?>
 		// task that saves the current settings to the display's internal memory
@@ -120,17 +120,21 @@ internal class BrightnessManager: NSObject {
 		
 		override init(fromDisplay displayID: CGDirectDisplayID) {
 			// get the current and maximum brightness from the display, if possible, otherwise choose some sane values
-			if let (curr, max) = DDC.read(.brightness, fromDisplay: displayID) {
-				self.canReadBrightness = true
-				self.brightness = Float(curr) / Float(max)
-				self.brightnessScale = Float(max)
-				self.lastSetOn = Date()
-			}
-			else {
-				self.canReadBrightness = false
-				self.brightness = 0.5
-				self.brightnessScale = 100
-				self.lastSetOn = Date.distantPast
+			
+			self.brightness = 0.5
+			self.brightnessScale = 100
+			self.lastSetOn = Date.distantPast
+			
+			if BrightnessManager.shared.readBrightnessBeforeChanging.boolValue {
+				if let (curr, max) = DDC.read(.brightness, fromDisplay: displayID) {
+					self.canReadBrightness = true
+					self.brightness = Float(curr) / Float(max)
+					self.brightnessScale = Float(max)
+					self.lastSetOn = Date()
+				}
+				else {
+					self.canReadBrightness = false
+				}
 			}
 			
 			self.futureBrightness = Atomic<Float?>(nil)
@@ -204,10 +208,16 @@ internal class BrightnessManager: NSObject {
 		override func getBrightness() -> Float {
 			// read the brightness over DDC-CI only if the display supports it,
 			// and we last set it or read more than 10 seconds ago, so we don't read it directly too often because it's slow
-			if self.canReadBrightness && (self.lastSetOn < Date(timeIntervalSinceNow: -10)) {
-				if let curr = DDC.read(.brightness, fromDisplay: self.displayID)?.current {
-					self.brightness = Float(curr) / self.brightnessScale
-					self.lastSetOn = Date()
+			if BrightnessManager.shared.readBrightnessBeforeChanging.boolValue {
+				if self.canReadBrightness == nil || (self.canReadBrightness == true && self.lastSetOn < Date(timeIntervalSinceNow: -10)) {
+					if let curr = DDC.read(.brightness, fromDisplay: self.displayID)?.current {
+						self.brightness = Float(curr) / self.brightnessScale
+						self.lastSetOn = Date()
+						self.canReadBrightness = true
+					}
+					else {
+						self.canReadBrightness = false
+					}
 				}
 			}
 			return self.brightness
@@ -222,6 +232,7 @@ internal class BrightnessManager: NSObject {
 	
 	@objc internal dynamic var changeBrightnessOnAllDisplaysAtOnce: NSNumber = 1
 	@objc internal dynamic var changeBrightnessOnAllDisplaysAtOnceRequiresCommand: NSNumber = 1
+	@objc internal dynamic var readBrightnessBeforeChanging: NSNumber = 0
 	
 	@objc internal dynamic var decreaseBrightnessKey: NSString = "F9" {
 		didSet {
@@ -242,6 +253,7 @@ internal class BrightnessManager: NSObject {
 		
 		self.bind(NSBindingName(rawValue: "changeBrightnessOnAllDisplaysAtOnce"), to: NSUserDefaultsController.shared, withKeyPath: "values.changeBrightnessOnAllDisplaysAtOnce")
 		self.bind(NSBindingName(rawValue: "changeBrightnessOnAllDisplaysAtOnceRequiresCommand"), to: NSUserDefaultsController.shared, withKeyPath: "values.changeBrightnessOnAllDisplaysAtOnceRequiresCommand")
+		self.bind(NSBindingName(rawValue: "readBrightnessBeforeChanging"), to: NSUserDefaultsController.shared, withKeyPath: "values.readBrightnessBeforeChanging")
 		
 		if KeyboardShortcutsManager.shared.isRegistered {
 			self.bind(NSBindingName(rawValue: "decreaseBrightnessKey"), to: NSUserDefaultsController.shared, withKeyPath: "values.decreaseBrightnessKey")
