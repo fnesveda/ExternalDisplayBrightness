@@ -44,8 +44,8 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LaL-eE-x2v" userLabel="Decrease brightness key">
-                                        <rect key="frame" x="166" y="38" width="90" height="26"/>
+                                    <popUpButton verticalHuggingPriority="750" placeholderIntrinsicWidth="88" placeholderIntrinsicHeight="21" translatesAutoresizingMaskIntoConstraints="NO" id="LaL-eE-x2v" userLabel="Decrease brightness key">
+                                        <rect key="frame" x="166" y="38" width="93" height="26"/>
                                         <popUpButtonCell key="cell" type="push" title="F1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="STB-2p-H8Y" id="B5j-bx-Rfo">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="menu"/>
@@ -71,8 +71,8 @@
                                                     <menuItem title="F18" id="z7s-0h-nGX"/>
                                                     <menuItem title="F19" id="9sf-li-2Hq"/>
                                                     <menuItem title="F20" id="dtb-K0-Z3X"/>
-                                                    <menuItem title="MK_BDN" id="BUI-xK-bFa"/>
-                                                    <menuItem title="MK_BUP" id="hZ6-zs-1Rv"/>
+                                                    <menuItem title="MK_BDN" toolTip="Magic Keyboard Brightness Down key" id="BUI-xK-bFa"/>
+                                                    <menuItem title="MK_BUP" toolTip="Magic Keyboard Brightness Up key" id="hZ6-zs-1Rv"/>
                                                 </items>
                                             </menu>
                                         </popUpButtonCell>
@@ -81,8 +81,8 @@
                                             <binding destination="XYD-28-GRs" name="selectedValue" keyPath="values.decreaseBrightnessKey" id="3nX-bx-50a"/>
                                         </connections>
                                     </popUpButton>
-                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W9C-mR-q85" userLabel="Increase brightness key">
-                                        <rect key="frame" x="166" y="7" width="90" height="26"/>
+                                    <popUpButton verticalHuggingPriority="750" placeholderIntrinsicWidth="88" placeholderIntrinsicHeight="21" translatesAutoresizingMaskIntoConstraints="NO" id="W9C-mR-q85" userLabel="Increase brightness key">
+                                        <rect key="frame" x="166" y="7" width="93" height="26"/>
                                         <popUpButtonCell key="cell" type="push" title="F1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="mxb-28-Oq7" id="FDP-v7-kQM">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="menu"/>
@@ -108,8 +108,8 @@
                                                     <menuItem title="F18" id="MFh-N0-7Dj"/>
                                                     <menuItem title="F19" id="goi-Rd-y5f"/>
                                                     <menuItem title="F20" id="He9-X9-gsV"/>
-                                                    <menuItem title="MK_BDN" id="v55-uT-fwH"/>
-                                                    <menuItem title="MK_BUP" id="dSE-sO-FFp"/>
+                                                    <menuItem title="MK_BDN" toolTip="Magic Keyboard Brightness Down key" id="v55-uT-fwH"/>
+                                                    <menuItem title="MK_BUP" toolTip="Magic Keyboard Brightness Up key" id="dSE-sO-FFp"/>
                                                 </items>
                                             </menu>
                                         </popUpButtonCell>
@@ -119,7 +119,7 @@
                                         </connections>
                                     </popUpButton>
                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TFV-Oc-dBs" userLabel="Caution for keys">
-                                        <rect key="frame" x="261" y="20" width="32" height="32"/>
+                                        <rect key="frame" x="264" y="20" width="32" height="32"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="yU1-lx-9H2"/>
                                         <connections>
                                             <binding destination="-2" name="hidden" keyPath="self.showCaution" id="Kh3-Ly-Is4">
@@ -163,7 +163,7 @@
                                     <constraint firstAttribute="trailing" secondItem="5m2-gt-ock" secondAttribute="trailing" id="Wve-Mh-4qK"/>
                                 </constraints>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="AGH-ae-Htb">
+                            <customView placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="58" translatesAutoresizingMaskIntoConstraints="NO" id="AGH-ae-Htb">
                                 <rect key="frame" x="0.0" y="198" width="387" height="58"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Fy-CI-9hG">
@@ -314,15 +314,16 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="dzp-TV-ZYz" secondAttribute="bottom" constant="10" id="DUq-5G-bqf"/>
-                                    <constraint firstAttribute="trailing" secondItem="dzp-TV-ZYz" secondAttribute="trailing" constant="10" id="OQd-Jn-xgw"/>
+                                    <constraint firstItem="dzp-TV-ZYz" firstAttribute="centerX" secondItem="Cy4-h0-1pa" secondAttribute="centerX" id="Id4-kN-9EH"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dzp-TV-ZYz" secondAttribute="trailing" constant="10" id="OQd-Jn-xgw"/>
                                     <constraint firstItem="dzp-TV-ZYz" firstAttribute="top" secondItem="Cy4-h0-1pa" secondAttribute="top" constant="10" id="e7f-vp-b5O"/>
-                                    <constraint firstItem="dzp-TV-ZYz" firstAttribute="leading" secondItem="Cy4-h0-1pa" secondAttribute="leading" constant="10" id="w9E-75-ZdE"/>
+                                    <constraint firstItem="dzp-TV-ZYz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Cy4-h0-1pa" secondAttribute="leading" constant="10" id="w9E-75-ZdE"/>
                                 </constraints>
                                 <connections>
                                     <binding destination="-2" name="hidden" keyPath="self.isPrivileged" id="Som-0K-BJj"/>
                                 </connections>
                             </customView>
-                            <customView placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="Ead-Ls-FNf">
+                            <customView placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ead-Ls-FNf">
                                 <rect key="frame" x="0.0" y="65" width="387" height="1"/>
                                 <subviews>
                                     <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="wZY-s8-iLM">
