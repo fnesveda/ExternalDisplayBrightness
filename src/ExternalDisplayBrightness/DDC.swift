@@ -23,33 +23,70 @@ enum DDC {
 		}
 	}
 	
+	// check if the display connected to a given framebuffer port appears to be the same one as the display with the given ID
+	// if requested, check the unit number of the display as well
+	private static func framebufferPortMatchesDisplay(port: io_service_t, display displayID: CGDirectDisplayID, strict: Bool = true) -> Bool {
+		var busCount: IOItemCount = 0
+		IOFBGetI2CInterfaceCount(port, &busCount)
+		if busCount >= 1 {
+			let info = IODisplayCreateInfoDictionary(port, IOOptionBits(kIODisplayNoProductName)).takeRetainedValue() as NSDictionary
+			let vendorID     = UInt32(bitPattern: Int32(exactly: info[kDisplayVendorID]     as? CFIndex ?? 0) ?? 0)
+			let productID    = UInt32(bitPattern: Int32(exactly: info[kDisplayProductID]    as? CFIndex ?? 0) ?? 0)
+			// we could also extract and compare the serial number, but they are often wrong and identical for multiple displays of the same model
+			if vendorID == CGDisplayVendorNumber(displayID)	&& productID == CGDisplayModelNumber(displayID) {
+				if !strict {
+					return true
+				}
+				
+				// extract the unit number from the display location path from the I/O registry dictionary of the framebuffer
+				// and compare it with the unit number of the desired display
+				// this comparison on its own should probably be enough, but since I don't have enough hardware to test it,
+				// it's only an optional check for now
+				if let displayLocation = info[kIODisplayLocationKey] as? NSString {
+					// the unit number is the number right after the last "@" sign in the display location
+					if let regex = try? NSRegularExpression(pattern: "@([0-9]+)[^@]+$", options: []) {
+						if let match = regex.firstMatch(in: displayLocation as String, options: [], range: NSRange(location: 0, length: displayLocation.length)) {
+							let unitNumber = UInt32(displayLocation.substring(with: match.range(at: 1)))
+							if unitNumber == CGDisplayUnitNumber(displayID) {
+								return true
+							}
+						}
+					}
+				}
+			}
+		}
+		return false
+	}
+	
 	// get framebuffer port for a display
 	private static func getIOFramebufferPort(fromDisplayID displayID: CGDirectDisplayID ) -> io_service_t? {
 		if CGDisplayIsBuiltin(displayID) != 0 {
 			return nil
 		}
-		var iter: io_iterator_t = 0
-		var serv: io_service_t = 0
 		
+		var iter: io_iterator_t = 0
 		if IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(IOFRAMEBUFFER_CONFORMSTO), &iter) == kIOReturnSuccess {
 			defer { IOObjectRelease(iter) }
+			
+			// try to find the right framebuffer port for the display by looking at all framebuffer ports
+			// and seeing if any of them appears to have the right display connected to it
+			// first we do a strict comparison (vendor, model and unit numbers of the desired display and the display connected to the framebuffer must match)
+			var serv: io_service_t = 0
 			while (serv = IOIteratorNext(iter), serv).1 != MACH_PORT_NULL {
 				defer { IOObjectRelease(serv) }
-				var busCount: IOItemCount = 0
-				IOFBGetI2CInterfaceCount(serv, &busCount)
-				if busCount >= 1 {
-					if let info = IODisplayCreateInfoDictionary(serv, IOOptionBits(kIODisplayOnlyPreferredName)).takeRetainedValue() as NSDictionary as? [String: Any] {
-						let vendorID     = UInt32(bitPattern: Int32(exactly: info[kDisplayVendorID]     as? CFIndex ?? 0) ?? 0)
-						let productID    = UInt32(bitPattern: Int32(exactly: info[kDisplayProductID]    as? CFIndex ?? 0) ?? 0)
-						let serialNumber = UInt32(bitPattern: Int32(exactly: info[kDisplaySerialNumber] as? CFIndex ?? 0) ?? 0)
-						if vendorID == CGDisplayVendorNumber(displayID)
-							&& productID == CGDisplayModelNumber(displayID)
-							&& (serialNumber == 0 || serialNumber == CGDisplaySerialNumber(displayID))
-						{
-							IOObjectRetain(serv)
-							return serv
-						}
-					}
+				if framebufferPortMatchesDisplay(port: serv, display: displayID, strict: true) {
+					IOObjectRetain(serv)
+					return serv
+				}
+			}
+			// since the method for extracting the unit number of a display is new and untested, we have a fallback check
+			// where we relax the requirements and only search for a framebuffer port with a connected display with the matching vendor and model number
+			IOIteratorReset(iter)
+			while (serv = IOIteratorNext(iter), serv).1 != MACH_PORT_NULL {
+				defer { IOObjectRelease(serv) }
+				if framebufferPortMatchesDisplay(port: serv, display: displayID, strict: false) {
+					IOObjectRetain(serv)
+					return serv
 				}
 			}
 		}
