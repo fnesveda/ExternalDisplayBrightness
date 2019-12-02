@@ -59,7 +59,7 @@ enum DDC {
 	}
 	
 	// get framebuffer port for a display
-	private static func getIOFramebufferPort(fromDisplayID displayID: CGDirectDisplayID ) -> io_service_t? {
+	private static func getIOFramebufferPort(forDisplay displayID: CGDirectDisplayID) -> io_service_t? {
 		if CGDisplayIsBuiltin(displayID) != 0 {
 			return nil
 		}
@@ -130,7 +130,7 @@ enum DDC {
 		let displayQueue = getDispatchQueue(forDisplayID: displayID)
 		var result = false
 		displayQueue.sync {
-			if let framebufferPort: io_service_t = getIOFramebufferPort(fromDisplayID: displayID) {
+			if let framebufferPort: io_service_t = getIOFramebufferPort(forDisplay: displayID) {
 				defer { IOObjectRelease(framebufferPort) }
 				var busCount: io_service_t = 0
 				if IOFBGetI2CInterfaceCount(framebufferPort, &busCount) == kIOReturnSuccess {
