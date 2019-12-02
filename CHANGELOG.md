@@ -1,6 +1,14 @@
 Changelog
 =========
 
+[1.3.0](../../releases/tag/v1.3.0) - 2019-12-02
+-----------------------------------------------
+### Added
+- support for multiple identical displays
+
+### Fixed
+- crashes with several Mac models by disabling reading the brightness from the display by default
+
 [1.2.0](../../releases/tag/v1.2.0) - 2019-10-19
 -----------------------------------------------
 ### Added
